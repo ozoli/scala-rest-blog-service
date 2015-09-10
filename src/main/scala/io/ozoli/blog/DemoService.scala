@@ -21,8 +21,6 @@ import scala.xml.XML
 class DemoService extends Actor with ActorLogging with DB {
   implicit val timeout: Timeout = 10.seconds // for the actor 'asks' // ExecutionContext for the futures and scheduler
 
-  val service = context.actorOf(Props[DbHandler], "ServerActor")
-
   val CacheHeader = (maxAge: Long) => `Cache-Control`(`max-age`(maxAge)) :: Nil
   val MaxAge = 2592000.toLong  // 30days (60sec * 60min * 24hours * 30days)
   val MaxAge404 = 600l
