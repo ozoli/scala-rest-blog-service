@@ -6,17 +6,17 @@ import akka.actor.{ExtendedActorSystem, ExtensionIdProvider, ExtensionId, Extens
 class ConfExtensionImpl(config: Config) extends Extension {
   config.checkValid(ConfigFactory.defaultReference)
 
-  val appHostName = config.getString("ozoli-blog.app.hostname")
-  val appPort = config.getInt("ozoli-blog.app.port")
+  val appHostName = config.getString("blog.app.hostname")
+  val appPort = config.getInt("blog.app.port")
 
-  val dbUsername = config.getString("ozoli-blog.db.username")
-  val dbPassword = config.getString("ozoli-blog.db.password")
-  val dbPort = config.getInt("ozoli-blog.db.port")
-  val dbName = config.getString("ozoli-blog.db.name")
+  val dbUsername = config.getString("blog.db.user")
+  val dbPassword = config.getString("blog.db.password")
+  val dbPort = config.getInt("blog.db.port")
+  val dbName = config.getString("blog.db.name")
 
-  val dbPoolMaxObjects = config.getInt("ozoli-blog.db.pool.maxObjects")
-  val dbPoolMaxIdle = config.getInt("ozoli-blog.db.pool.maxIdle")
-  val dbPoolMaxQueueSize = config.getInt("ozoli-blog.db.pool.maxQueueSize")
+  val dbPoolMaxObjects = config.getInt("blog.db.pool.maxObjects")
+  val dbPoolMaxIdle = config.getInt("blog.db.pool.maxIdle")
+  val dbPoolMaxQueueSize = config.getInt("blog.db.pool.maxQueueSize")
 }
 
 object ConfExtension extends ExtensionId[ConfExtensionImpl] with ExtensionIdProvider {
