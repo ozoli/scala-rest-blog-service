@@ -1,29 +1,29 @@
 package io.ozoli.blog.database
 
+import java.net.URL
+
 import com.typesafe.config.ConfigFactory
 import io.ozoli.blog.{RssReader, BlogEntry, BlogEntries}
 
-import slick.dbio
-import slick.dbio.Effect.All
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration._
+import slick.driver.MySQLDriver.api._
 import slick.lifted.TableQuery
 
-import slick.driver.MySQLDriver.api._
-
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future}
 
 /**
- * Created by ocarr on 01/09/15.
+ * Here the current Blog Entries are read from the Feed URL
+ * and any previous Blog Entries in the database are replaced with the new entries.
  */
 trait DatabaseConfiguration {
-  var conf = ConfigFactory.load
+  lazy val conf = ConfigFactory.load
 
   val blogEntries = TableQuery[BlogEntries]
 
   val db = Database.forConfig("blog.db")
 
-  // Insert the current blog entries
-  lazy val currentBlogEntries : Seq[BlogEntry] = RssReader.extractRss(conf.getString("blog.rss.uri"))
+  // Read the current blog entries from the Feed URL
+  lazy val currentBlogEntries : Seq[BlogEntry] = RssReader.extractRss(new URL(conf.getString("blog.rss.uri")))
 
   try {
     val insertAction: DBIO[Option[Int]] = blogEntries ++= currentBlogEntries
@@ -31,11 +31,9 @@ trait DatabaseConfiguration {
     // Create the schema for the DDL for BlogEntries tables using the query interfaces
     val setupAction: DBIO[Unit] = DBIO.seq(blogEntries.schema.drop, blogEntries.schema.create)
 
-    val combinedAction: dbio.DBIOAction[Option[Int], NoStream, All with All] = setupAction >> insertAction
+    val combinedFuture: Future[Option[Int]] = db.run(setupAction >> insertAction)
 
-    val combinedFuture: Future[Option[Int]] = db.run(combinedAction)
-
-    Await.result(combinedFuture, Duration.Inf)
+    Await.result(combinedFuture, 100 seconds)
 
   } finally db.close()
 }
