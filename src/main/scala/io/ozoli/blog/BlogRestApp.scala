@@ -5,7 +5,7 @@ import akka.io.IO
 import io.ozoli.blog.database.DatabaseConfiguration
 import spray.can.Http
 
-object Main extends App with DatabaseConfiguration {
+object BlogRestApp extends App with DatabaseConfiguration {
 
   implicit val system = ActorSystem()
 
