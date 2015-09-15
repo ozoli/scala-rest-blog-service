@@ -3,7 +3,8 @@ package io.ozoli.blog.database
 import java.net.URL
 
 import com.typesafe.config.ConfigFactory
-import io.ozoli.blog.{RssReader, BlogEntry, BlogEntries}
+import io.ozoli.blog.domain.{BlogEntries, BlogEntry}
+import io.ozoli.blog.util.RssReader
 
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._

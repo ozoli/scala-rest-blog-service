@@ -2,7 +2,7 @@ package db
 
 import akka.actor.ActorSystem
 import com.github.mauricio.async.db.{RowData, QueryResult}
-import io.ozoli.blog.BlogEntry
+import io.ozoli.blog.domain.BlogEntry
 import org.joda.time.LocalDateTime
 import org.joda.time.format.{DateTimeFormatter, DateTimeFormat}
 

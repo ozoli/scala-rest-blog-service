@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/"
+     xmlns:blogger="http://schemas.google.com/blogger/2008" xmlns:georss="http://www.georss.org/georss"
+     xmlns:gd="http://schemas.google.com/g/2005" xmlns:thr="http://purl.org/syndication/thread/1.0"
+     xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0" version="2.0">
+    <channel>
+        <atom:id>tag:blogger.com,1999:blog-2293822506107569095</atom:id>
+        <lastBuildDate>Thu, 20 Aug 2015 21:12:57 +0000</lastBuildDate>
+        <category>events amsterdam gig tickets</category>
+        <category>google chrome mac web browser development beta</category>
+        <title>Oliver Carr</title>
+        <description>Random posts about various topics ranging from software development, travel, food and
+            photography.
+        </description>
+        <link>http://olivercarr.blogspot.com/</link>
+        <managingEditor>noreply@blogger.com (Oliver Carr)</managingEditor>
+        <generator>Blogger</generator>
+        <openSearch:totalResults>5</openSearch:totalResults>
+        <openSearch:startIndex>1</openSearch:startIndex>
+        <openSearch:itemsPerPage>25</openSearch:itemsPerPage>
+        <atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml"
+                     href="http://feeds.feedburner.com/OliverCarrsBlog"/>
+        <feedburner:info uri="olivercarrsblog"/>
+        <atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="hub" href="http://pubsubhubbub.appspot.com/"/>
+        <item>
+            <guid isPermaLink="false">tag:blogger.com,1999:blog-2293822506107569095.post-3556510807616736425</guid>
+            <pubDate>Thu, 20 Aug 2015 21:12:00 +0000</pubDate>
+            <atom:updated>2015-08-20T23:12:57.716+02:00</atom:updated>
+            <title>Creme Brulee or Creme Catalan?</title>
+            <description>This is my favourite. Either one in my mind both yummy!&lt;br /&gt;&lt;br /&gt;Margaret Fulton
+                - favourites.&lt;br /&gt;&lt;br /&gt;pg 184&lt;br /&gt;&lt;br /&gt;1/2 cup water&lt;br /&gt;1 cup sugar&lt;br
+                /&gt;1 cup cream&lt;br /&gt;1 1/2 cups milk&lt;br /&gt;1 vanilla bean&lt;br /&gt;3 eggs&lt;br /&gt;2 egg
+                yolks&lt;br /&gt;1/2 cup extra caster sugar&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;img
+                src="http://feeds.feedburner.com/~r/OliverCarrsBlog/~4/WZlzx_0vHjU" height="1" width="1"
+                alt=""/&gt;</description>
+            <link>http://feedproxy.google.com/~r/OliverCarrsBlog/~3/WZlzx_0vHjU/creme-brulee-or-creme-catalan.html
+            </link>
+            <author>noreply@blogger.com (Oliver Carr)</author>
+            <thr:total>0</thr:total>
+            <feedburner:origLink>http://olivercarr.blogspot.com/2015/08/creme-brulee-or-creme-catalan.html
+            </feedburner:origLink>
+        </item>
+    </channel>
+</rss>

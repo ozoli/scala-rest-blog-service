@@ -2,15 +2,41 @@ package io.ozoli.blog
 
 import akka.actor.{ActorSystem, Props}
 import akka.io.IO
+import grizzled.slf4j.Logger
 import io.ozoli.blog.database.DatabaseConfiguration
 import spray.can.Http
+import io.ozoli.blog.util.ApplicationLifecycle
 
-object BlogRestApp extends App with DatabaseConfiguration {
+class BlogRestApp extends ApplicationLifecycle with DatabaseConfiguration {
 
-  implicit val system = ActorSystem()
+  private[this] var started: Boolean = false
 
-  // the handler actor replies to incoming HttpRequests
-  val handler = system.actorOf(Props[BlogService], name = "handler")
+  private val applicationName = "BlogRestApp"
 
-  IO(Http) ! Http.Bind(handler, interface = conf.getString("blog.app.hostname"), port = conf.getInt("blog.app.port"))
+  implicit val actorSystem = ActorSystem(s"$applicationName-system")
+
+  val logger = Logger[this.type]
+
+  def start() {
+    logger.info(s"Starting $applicationName Service")
+
+    if (!started) {
+      started = true
+
+      // the handler actor replies to incoming HttpRequests
+      val blogService = actorSystem.actorOf(Props[BlogService], name = "BlogService")
+
+      IO(Http) ! Http.Bind(blogService, interface = conf.getString("blog.app.hostname"),
+        port = conf.getInt("blog.app.port"))
+    }
+  }
+
+  def stop() {
+    logger.info(s"Stopping $applicationName Service")
+
+    if (started) {
+      started = false
+      actorSystem.shutdown()
+    }
+  }
 }

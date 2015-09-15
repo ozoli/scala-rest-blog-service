@@ -1,4 +1,4 @@
-package util
+package io.ozoli.blog.util
 
 import com.typesafe.config.{Config, ConfigFactory}
 import akka.actor.{ExtendedActorSystem, ExtensionIdProvider, ExtensionId, Extension}

@@ -1,8 +1,10 @@
 package io.ozoli.blog
 
+import io.ozoli.blog.util.RssReader
 import akka.actor._
 
 import db._
+import io.ozoli.blog.domain.BlogEntryJsonProtocol
 
 import scala.concurrent._
 import scala.util.{Failure, Success}

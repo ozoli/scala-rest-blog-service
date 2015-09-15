@@ -4,7 +4,7 @@ import com.github.mauricio.async.db.Configuration
 import com.github.mauricio.async.db.mysql.pool.MySQLConnectionFactory
 import com.github.mauricio.async.db.pool.ConnectionPool
 import com.github.mauricio.async.db.pool.PoolConfiguration
-import util.ConfExtension
+import io.ozoli.blog.util.ConfExtension
 import akka.actor.ActorSystem
 
 class Pool(system: ActorSystem) {

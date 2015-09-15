@@ -1,9 +1,8 @@
-package io.ozoli.blog
+package io.ozoli.blog.domain
 
-import slick.driver.MySQLDriver.api._
 import com.github.tototoshi.slick.MySQLJodaSupport._
-
 import org.joda.time.LocalDateTime
+import slick.driver.MySQLDriver.api._
 
 
 /**
