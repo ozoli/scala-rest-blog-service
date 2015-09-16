@@ -5,9 +5,11 @@ import java.net.URL
 import com.typesafe.config.ConfigFactory
 import io.ozoli.blog.domain.{BlogEntries, BlogEntry}
 import io.ozoli.blog.util.RssReader
+import slick.jdbc.meta.MTable
 
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
 import slick.driver.MySQLDriver.api._
 import slick.lifted.TableQuery
 
@@ -27,12 +29,20 @@ trait DatabaseConfiguration {
   lazy val currentBlogEntries : Seq[BlogEntry] = RssReader.extractRss(new URL(conf.getString("blog.rss.uri")))
 
   try {
-    val insertAction: DBIO[Option[Int]] = blogEntries ++= currentBlogEntries
+    val tablesExist: DBIO[Boolean] = MTable.getTables.map { tables =>
+      val names = Vector(blogEntries.baseTableRow.tableName)
+      names.intersect(tables.map(_.name.name)) == names
+    }
 
     // Create the schema for the DDL for BlogEntries tables using the query interfaces
-    val setupAction: DBIO[Unit] = DBIO.seq(blogEntries.schema.drop, blogEntries.schema.create)
+    val createAction: DBIO[Unit] = DBIO.seq(blogEntries.schema.create)
+    val dropCreateAction: DBIO[Unit] = DBIO.seq(blogEntries.schema.drop, blogEntries.schema.create)
 
-    val combinedFuture: Future[Option[Int]] = db.run(setupAction >> insertAction)
+    val createIfNotExist: DBIO[Unit] = tablesExist.flatMap(exist => if (!exist) createAction else dropCreateAction)
+
+    val insertAction: DBIO[Option[Int]] = blogEntries ++= currentBlogEntries
+
+    val combinedFuture: Future[Option[Int]] = db.run(createIfNotExist >> insertAction)
 
     Await.result(combinedFuture, 100 seconds)
 
