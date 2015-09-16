@@ -1,8 +1,11 @@
-name := "ozoli-blog-service"
+name := "blogRestService"
+
+assemblyJarName in assembly := "blogRestService.jar"
 
 version := "1.0"
 
 scalaVersion := "2.11.7"
+scalacOptions ++= Seq("-optimize", "-language:postfixOps")
 
 resolvers += "spray repo" at "http://repo.spray.io"
 
@@ -22,7 +25,12 @@ libraryDependencies ++= Seq(
   ,"com.github.mauricio" %% "mysql-async" % "0.2.18"
 
   , "mysql" % "mysql-connector-java" % "5.1.35"
-  ,"com.zaxxer" % "HikariCP-java6" % "2.3.2"
+  ,"com.zaxxer" % "HikariCP-java6" % "2.3.2",
+
+  "ch.qos.logback" % "logback-classic" % "1.1.3",
+  "org.slf4j" % "slf4j-api" % "1.7.5",
+  "org.clapper" %% "grizzled-slf4j" % "1.0.2",
+  "commons-daemon" % "commons-daemon" % "1.0.15"
 )
 
 libraryDependencies ++= Seq(
