@@ -1,8 +1,11 @@
 package io.ozoli.blog
 
+import grizzled.slf4j.Logger
+import io.ozoli.blog.util.RssReader
 import akka.actor._
 
 import db._
+import io.ozoli.blog.domain.BlogEntryJsonProtocol
 
 import scala.concurrent._
 import scala.util.{Failure, Success}
@@ -29,6 +32,8 @@ class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport 
 
   private lazy val blogPerIdUri = "(/blog/)\\d+".r
 
+  val logger = Logger[this.type]
+
   override def system = context.system
 
   override implicit def dispatcher: ExecutionContext = context.dispatcher
@@ -44,6 +49,7 @@ class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport 
           client ! HttpResponse(status = 200).withEntity(
             HttpEntity(ContentTypes.`application/json`, result.toJson.compactPrint)).withHeaders(CacheHeader(MaxAge))
         case Failure(ex) =>
+          logger.error(s"Error Finding Blogs ${ex.getMessage} ${ex}")
           client ! HttpResponse(status = 500, entity = "Error Finding Blogs").withHeaders(CacheHeader(MaxAge404))
       }
     }
@@ -60,14 +66,17 @@ class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport 
                   HttpEntity(ContentTypes.`application/json`, getData(resultSet.head).toJson.compactPrint))
                   .withHeaders(CacheHeader(MaxAge))
               case resultSet if resultSet.isEmpty =>
+                logger.error(s"Error Finding Blog ID ${blogId.get.toInt}")
                 client ! HttpResponse(status = 400,
                                       entity = "Blog ID Not Found").withHeaders(CacheHeader(MaxAge404))
               case _ =>
+                logger.error(s"Unknown Error Finding Blog ID ${blogId.get.toInt}")
                 client ! HttpResponse(status = 400,
                                       entity = "Unknown Error Finding Blog ID").withHeaders(CacheHeader(MaxAge404))
             }
           }
           case Failure(ex) =>
+            logger.error(s"Error Finding Blog ID ${ex.getMessage} ${ex}")
             client ! HttpResponse(status = 500, entity = "Error Finding Blog ID").withHeaders(CacheHeader(MaxAge404))
         }
     }
@@ -78,20 +87,28 @@ class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport 
       addBlogEntry(blogEntries.head).map(
         queryResult => queryResult.rowsAffected match {
           case 1 => client ! HttpResponse(entity = "OK")
-          case 0 => client ! HttpResponse(status = 400,
-            entity = "Rows not affected. Error Inserting Blog: %s".format(blogEntries))
-          case _ => client ! HttpResponse(status = 400,
-            entity = "Unknown not affected. Error Inserting Blog: %s".format(blogEntries))
+          case 0 =>
+            logger.error(s"Zero Rows Affected Inserting new Blog ${blogEntries.head}")
+            client ! HttpResponse(status = 400,
+                                  entity = "Rows not affected. Error Inserting Blog: %s".format(blogEntries.head))
+          case _ =>
+            logger.error(s"Unknown Rows Affected Inserting new Blog ${blogEntries.head}")
+            client ! HttpResponse(status = 400,
+                                  entity = "Unknown not affected. Error Inserting Blog: %s".format(blogEntries.head))
         }).recover {
         case ex: TimeoutException =>
-          client ! HttpResponse(status = 500, entity = "Timeout Inserting Blog: %s".format(blogEntries))
-        case _ => client ! HttpResponse(status = 500, entity = "Unknown Error Inserting Blog: %s".format(blogEntries))
+          logger.error(s"Timeout Inserting new Blog ${blogEntries.head} ${ex.getMessage} ${ex}")
+          client ! HttpResponse(status = 500, entity = "Timeout Inserting Blog: %s".format(blogEntries.head))
+        case _ =>
+          logger.error(s"Unknown Error Inserting new Blog ${blogEntries.head}")
+          client ! HttpResponse(status = 500, entity = "Unknown Error Inserting Blog: %s".format(blogEntries.head))
       }
     }
 
     case HttpRequest(GET, Uri.Path("/ping"), _, _, _) => sender ! HttpResponse(entity = "PONG!")
 
-    case _: HttpRequest =>
+    case unhandledRequest : HttpRequest =>
+      logger.error(s"Unknown Resource Requested ${unhandledRequest.method} ${unhandledRequest.uri}")
       sender ! HttpResponse(status = 404, entity = "Unknown resource!").withHeaders(CacheHeader(MaxAge404))
   }
 

@@ -1,4 +1,4 @@
-package io.ozoli.blog
+package io.ozoli.blog.domain
 
 import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
 import spray.json._

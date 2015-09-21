@@ -1,8 +1,9 @@
-package io.ozoli.blog
+package io.ozoli.blog.util
 
 import java.net.URL
 
-import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
+import io.ozoli.blog.domain.BlogEntry
+import org.joda.time.format.{DateTimeFormatterBuilder, DateTimeFormat, DateTimeFormatter}
 
 import scala.xml.{Elem, Node, XML}
 
@@ -11,7 +12,9 @@ import scala.xml.{Elem, Node, XML}
  */
 object RssReader {
 
-  lazy val pubDateFormat : DateTimeFormatter = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss Z")
+  lazy val pubDateFormat : DateTimeFormatter = new DateTimeFormatterBuilder().append( null, Array(
+    DateTimeFormat.forPattern( "EEE, dd MMM yyyy HH:mm:ss Z" ).getParser,
+    DateTimeFormat.forPattern( "EEE, dd MMM yyyy HH:mm:ss z" ).getParser )).toFormatter
 
   /**
    * For the given XML retreive the BlogEntry's found
