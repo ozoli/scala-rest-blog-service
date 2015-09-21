@@ -11,6 +11,7 @@ class Pool(system: ActorSystem) {
   val conf = ConfExtension(system)
 
   val configuration = new Configuration(username = conf.dbUsername,
+    host = conf.dbHost,
     port = conf.dbPort,
     password = Some(conf.dbPassword),
     database = Some(conf.dbName))

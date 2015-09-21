@@ -11,6 +11,7 @@ class ConfExtensionImpl(config: Config) extends Extension {
 
   val dbUsername = config.getString("blog.db.user")
   val dbPassword = config.getString("blog.db.password")
+  val dbHost = config.getString("blog.db.host")
   val dbPort = config.getInt("blog.db.port")
   val dbName = config.getString("blog.db.name")
 
