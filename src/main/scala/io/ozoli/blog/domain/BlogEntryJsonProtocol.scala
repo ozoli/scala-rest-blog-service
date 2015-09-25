@@ -9,7 +9,7 @@ import spray.json._
  */
 object BlogEntryJsonProtocol extends DefaultJsonProtocol {
 
-  lazy val dateTimeFormatter : DateTimeFormatter = DateTimeFormat.forPattern("ddd yyyy mm ss")
+  lazy val dateTimeFormatter : DateTimeFormatter = DateTimeFormat.forPattern("EEEE d MMMM yyyy HH:mm")
 
   implicit object BlogEntryJsonFormat extends RootJsonFormat[BlogEntry] {
     def write(blogEntry: BlogEntry) = JsObject(
