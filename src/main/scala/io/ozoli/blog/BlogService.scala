@@ -27,10 +27,11 @@ import BlogEntryJsonProtocol._
 class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport {
 
   private lazy val CacheHeader = (maxAge: Long) => `Cache-Control`(`max-age`(maxAge)) :: Nil
-  private lazy val MaxAge = 2592000.toLong  // 30days (60 sec * 60 min * 24 hours * 30 days)
+  private lazy val MaxAge = 2592000.toLong  // 30 days (60 sec * 60 min * 24 hours * 30 days)
   private lazy val MaxAge404 = 600l
 
-  private lazy val blogPerIdUri = "(/blog/)\\d+".r
+  private lazy val blogPerIdUri = "(/blog/)\\d+"
+  private lazy val blogIdRegEx = "\\d+".r
 
   val logger = Logger[this.type]
 
@@ -49,59 +50,57 @@ class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport 
           client ! HttpResponse(status = 200).withEntity(
             HttpEntity(ContentTypes.`application/json`, result.toJson.compactPrint)).withHeaders(CacheHeader(MaxAge))
         case Failure(ex) =>
-          logger.error(s"Error Finding Blogs ${ex.getMessage} ${ex}")
+          logger.error(s"Error Finding Blogs %s %s".format(ex.getMessage, ex))
           client ! HttpResponse(status = 500, entity = "Error Finding Blogs").withHeaders(CacheHeader(MaxAge404))
       }
     }
 
-    case HttpRequest(GET, Uri.Path(path), _, _, _)
-      if path matches "(/blog/)\\d+" => {
+    case HttpRequest(GET, Uri.Path(path), _, _, _) if path matches blogPerIdUri => {
         val client = sender()
-        val blogId = "\\d+".r.findFirstIn(path)
-        findBlogById(blogId.get.toInt).onComplete {
-          case Success(queryResult) => {
-            queryResult.get match {
-              case resultSet if resultSet.nonEmpty =>
+        blogIdRegEx.findFirstIn(path) match {
+          case Some(blogId) => {
+            findBlogById(blogId.toLong).onComplete {
+              case Success(Some(resultSet)) if resultSet.nonEmpty =>
                 client ! HttpResponse(status = 200).withEntity(
                   HttpEntity(ContentTypes.`application/json`, getData(resultSet.head).toJson.compactPrint))
                   .withHeaders(CacheHeader(MaxAge))
-              case resultSet if resultSet.isEmpty =>
-                logger.error(s"Error Finding Blog ID ${blogId.get.toInt}")
+              case Success(Some(resultSet)) if resultSet.isEmpty =>
+                logger.error(s"Error Finding Blog ID $blogId")
                 client ! HttpResponse(status = 400,
-                                      entity = "Blog ID Not Found").withHeaders(CacheHeader(MaxAge404))
-              case _ =>
-                logger.error(s"Unknown Error Finding Blog ID ${blogId.get.toInt}")
+                  entity = "Blog ID Not Found").withHeaders(CacheHeader(MaxAge404))
+              case Success(Some(_)) =>
+                logger.error(s"Unknown Error Finding Blog ID $blogId")
                 client ! HttpResponse(status = 400,
-                                      entity = "Unknown Error Finding Blog ID").withHeaders(CacheHeader(MaxAge404))
+                  entity = "Unknown Error Finding Blog ID").withHeaders(CacheHeader(MaxAge404))
+              case Failure(ex) =>
+                logger.error("Error Finding Blog ID %s %s".format(ex.getMessage, ex))
+                client ! HttpResponse(status = 500, entity = "Error Finding Blog ID").withHeaders(CacheHeader(MaxAge404))
             }
           }
-          case Failure(ex) =>
-            logger.error(s"Error Finding Blog ID ${ex.getMessage} ${ex}")
-            client ! HttpResponse(status = 500, entity = "Error Finding Blog ID").withHeaders(CacheHeader(MaxAge404))
+          case None => logger.error(s"Error Finding Blog ID for URI $path")
         }
     }
 
     case HttpRequest(POST, Uri.Path("/blogs"), _, body, _) => {
-      val blogEntries = RssReader.getBlogEntries(XML.loadString(body.asString))
       val client = sender()
-      addBlogEntry(blogEntries.head).map(
+      addBlogEntry(RssReader.getBlogEntries(XML.loadString(body.asString)).head).map(
         queryResult => queryResult.rowsAffected match {
           case 1 => client ! HttpResponse(entity = "OK")
           case 0 =>
-            logger.error(s"Zero Rows Affected Inserting new Blog ${blogEntries.head}")
+            logger.error(s"Zero Rows Affected Inserting new Blog $body")
             client ! HttpResponse(status = 400,
-                                  entity = "Rows not affected. Error Inserting Blog: %s".format(blogEntries.head))
+                                  entity = "Rows not affected. Error Inserting Blog: %s".format(body))
           case _ =>
-            logger.error(s"Unknown Rows Affected Inserting new Blog ${blogEntries.head}")
+            logger.error(s"Unknown Rows Affected Inserting new Blog $body")
             client ! HttpResponse(status = 400,
-                                  entity = "Unknown not affected. Error Inserting Blog: %s".format(blogEntries.head))
+                                  entity = "Unknown not affected. Error Inserting Blog: %s".format(body))
         }).recover {
         case ex: TimeoutException =>
-          logger.error(s"Timeout Inserting new Blog ${blogEntries.head} ${ex.getMessage} ${ex}")
-          client ! HttpResponse(status = 500, entity = "Timeout Inserting Blog: %s".format(blogEntries.head))
+          logger.error(s"Timeout Inserting new Blog ${body} ${ex.getMessage} ${ex}")
+          client ! HttpResponse(status = 500, entity = "Timeout Inserting Blog: %s".format(body))
         case _ =>
-          logger.error(s"Unknown Error Inserting new Blog ${blogEntries.head}")
-          client ! HttpResponse(status = 500, entity = "Unknown Error Inserting Blog: %s".format(blogEntries.head))
+          logger.error(s"Unknown Error Inserting new Blog ${body}")
+          client ! HttpResponse(status = 500, entity = "Unknown Error Inserting Blog: %s".format(body))
       }
     }
 
