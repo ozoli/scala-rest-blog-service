@@ -3,7 +3,7 @@ package io.ozoli.blog
 import akka.actor.{ActorSystem, Props}
 import akka.io.IO
 import grizzled.slf4j.Logger
-import io.ozoli.blog.database.DatabaseConfiguration
+import io.ozoli.db.DatabaseConfiguration
 import spray.can.Http
 import io.ozoli.blog.util.ApplicationLifecycle
 

@@ -1,4 +1,4 @@
-package db
+package io.ozoli.db
 
 import akka.actor.ActorSystem
 import com.github.mauricio.async.db.{RowData, QueryResult}

@@ -1,4 +1,4 @@
-package db
+package io.ozoli.db
 
 import com.github.mauricio.async.db.Configuration
 import com.github.mauricio.async.db.mysql.pool.MySQLConnectionFactory

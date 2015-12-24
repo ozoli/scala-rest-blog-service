@@ -1,17 +1,17 @@
-package io.ozoli.blog.database
+package io.ozoli.db
 
 import java.net.URL
 
 import com.typesafe.config.ConfigFactory
 import io.ozoli.blog.domain.{BlogEntries, BlogEntry}
 import io.ozoli.blog.util.RssReader
-import slick.jdbc.meta.MTable
-
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration._
-import scala.concurrent.ExecutionContext.Implicits.global
 import slick.driver.MySQLDriver.api._
+import slick.jdbc.meta.MTable
 import slick.lifted.TableQuery
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
 
 
 /**
