@@ -27,6 +27,9 @@ libraryDependencies ++= Seq(
   ,"mysql" % "mysql-connector-java" % "5.1.35"
   ,"com.zaxxer" % "HikariCP-java6" % "2.3.2"
 
+  // -- MongoDB --
+  , "org.mongodb" %% "casbah" % "3.1.0"
+
   ,"ch.qos.logback" % "logback-classic" % "1.1.3"
   ,"org.slf4j" % "slf4j-api" % "1.7.5"
   ,"org.clapper" %% "grizzled-slf4j" % "1.0.2"
@@ -36,4 +39,5 @@ libraryDependencies ++= Seq(
   ,"com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"
   ,"io.spray" %% "spray-testkit" % sprayVersion % "test"
   ,"org.scalatest" %% "scalatest" % "2.1.4" % "test"
+  , "com.github.simplyscala" %% "scalatest-embedmongo" % "0.2.2" % "test"
 )
