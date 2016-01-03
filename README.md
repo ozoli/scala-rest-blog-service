@@ -2,12 +2,14 @@
 
 Reads (Blog) entries from an RSS feed.
 
-Stores the Blog Entries in a MySQL database for retrieval. 
+Stores the Blog Entries in a [MongoDB](https://www.mongodb.com) database for retrieval. 
 
 Provides a POST endpoint for Pub/Sub protocol to notify of new Blog entries in the RSS feed. 
 Once received this new Blog Entry is added to the MySQL database. 
 
-[Slick 3.0](http://slick.typesafe.com/doc/3.0.0/introduction.html) is used to drop, create and persist the Blog entries read from the RSS feed. 
+Use the [Mongo DB Scala Driver](http://mongodb.github.io/casbah/3.1/) 
+
+Uses [Embed Mongo](https://github.com/SimplyScala/scalatest-embedmongo) for integration testing with an embedded MongoDB.
 
 
 # Acknowledgements
