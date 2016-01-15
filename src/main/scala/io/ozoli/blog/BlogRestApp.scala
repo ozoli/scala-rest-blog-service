@@ -7,6 +7,9 @@ import io.ozoli.db.DatabaseConfiguration
 import spray.can.Http
 import io.ozoli.blog.util.ApplicationLifecycle
 
+/**
+ * Blog REST application with start and stop logic and declaring the Akka Actor system.
+ */
 class BlogRestApp extends ApplicationLifecycle with DatabaseConfiguration {
 
   private[this] var started: Boolean = false

@@ -27,7 +27,8 @@ class RssReaderTest extends FunSuite with BeforeAndAfter with ScalaFutures {
     val blogEntryXml = XML.load(getClass.getResource("/blog-entry-PDT-timezone.xml").openStream())
     val blogEntries : Seq[BlogEntry] = RssReader.getBlogEntries(blogEntryXml)
     assert(blogEntries.size == 1)
-    assert(blogEntries.head.title == "Creme Brulee or Creme Catalan?")
+    assert(blogEntries.head.title == "Creme Brulee, or Creme Catalan?")
+    assert(blogEntries.head.linkTitle == "creme-brulee-or-creme-catalan")
     assert(blogEntries.head.category ==
       "events amsterdam gig tickets google chrome mac web browser development beta")
   }

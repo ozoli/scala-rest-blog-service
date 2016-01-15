@@ -1,6 +1,7 @@
 package io.ozoli.blog.domain
 
-import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
+import java.time.format.DateTimeFormatter
+
 import spray.json._
 
 /**
@@ -9,16 +10,17 @@ import spray.json._
  */
 object BlogEntryJsonProtocol extends DefaultJsonProtocol {
 
-  lazy val dateTimeFormatter : DateTimeFormatter = DateTimeFormat.forPattern("EEEE d MMMM yyyy HH:mm")
+  lazy val dateTimeFormatter : DateTimeFormatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy HH:mm")
 
   implicit object BlogEntryJsonFormat extends RootJsonFormat[BlogEntry] {
     def write(blogEntry: BlogEntry) = JsObject(
-      "id" -> JsNumber(blogEntry.id),
-      "pubDate" -> JsString(dateTimeFormatter.print(blogEntry.pubDate)),
+      "pubDate" -> JsString(dateTimeFormatter.format(blogEntry.pubDate)),
       "title" -> JsString(blogEntry.title),
+      "linkTitle" -> JsString(blogEntry.linkTitle),
       "body" -> JsString(blogEntry.body),
       "category" -> JsString(blogEntry.category)
     )
+
     def read(value: JsValue) = {
       throw new DeserializationException("Read BlogEntry Not Implemented")
     }
