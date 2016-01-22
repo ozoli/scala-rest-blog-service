@@ -44,4 +44,5 @@ libraryDependencies ++= Seq(
   ,"io.spray" %% "spray-testkit" % sprayVersion % "test"
   ,"org.scalatest" %% "scalatest" % "2.2.6" % "test"
   ,"com.github.simplyscala" %% "scalatest-embedmongo" % "0.2.2" % "test"
+  ,"com.typesafe.akka" %% "akka-http-experimental" % "1.0-M3" % "test"
 )

@@ -29,8 +29,7 @@ class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport 
   private lazy val MaxAge = 2592000.toLong  // 30 days (60 sec * 60 min * 24 hours * 30 days)
   private lazy val MaxAge404 = 600l
 
-  private lazy val blogPerTitleUri = "(/blog/)\\[A-Za-z]+"
-  private lazy val blogTitleRegEx = "\\[A-Za-z]+".r
+  private lazy val blogPerTitleUri = """(/blog/)([\w\.|\-]+)"""
 
   val logger = Logger[this.type]
 
@@ -61,19 +60,15 @@ class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport 
 
     case HttpRequest(GET, Uri.Path(path), _, _, _) if path matches blogPerTitleUri =>
       val client = sender()
-      blogTitleRegEx.findFirstIn(path) match {
-        case Some(blogLinkTitle) =>
-          findBlogByLinkTitle(blogLinkTitle).onComplete {
-            case Success(blog) =>
-              client ! HttpResponse(status = OK).withEntity(
-                HttpEntity(ContentTypes.`application/json`, blog.head.toJson.compactPrint))
-                .withHeaders(CacheHeader(MaxAge)).withHeaders(CORSHeaders)
-            case Failure(ex) =>
-              logger.error(s"Error Finding Blog Link Title ${ex.getMessage} $ex")
-              client ! HttpResponse(status = InternalServerError, entity = "Error Finding Blog Link Title")
-                                    .withHeaders(CacheHeader(MaxAge404)).withHeaders(CORSHeaders)
-          }
-        case None => logger.error(s"Error Finding Blog ID for URI $path")
+      findBlogByLinkTitle(path.split("/blog/").toList.last).onComplete {
+        case Success(blog) =>
+          client ! HttpResponse(status = OK).withEntity(
+            HttpEntity(ContentTypes.`application/json`, blog.head.toJson.compactPrint))
+            .withHeaders(CacheHeader(MaxAge)).withHeaders(CORSHeaders)
+        case Failure(ex) =>
+          logger.error(s"Error Finding Blog Link Title ${ex.getMessage} $ex")
+          client ! HttpResponse(status = InternalServerError, entity = "Error Finding Blog Link Title")
+            .withHeaders(CacheHeader(MaxAge404)).withHeaders(CORSHeaders)
       }
 
     case HttpRequest(POST, Uri.Path("/blogs"), _, body, _) =>
