@@ -1,6 +1,5 @@
 # Scala REST Blog Service
-[![Coverage Status](https://coveralls.io/repos/github/ozoli/scala-rest-blog-service/badge.svg?branch=feature%2FRefactor_from_MySQL_to_MongoDB)](https://coveralls.io/github/ozoli/scala-rest-blog-service?branch=feature%2FRefactor_from_MySQL_to_MongoDB)
-
+[![Coverage Status](https://coveralls.io/repos/github/ozoli/scala-rest-blog-service/badge.svg?branch=master)](https://coveralls.io/github/ozoli/scala-rest-blog-service?branch=master)
 Reads (Blog) entries from an RSS feed.
 
 Stores the Blog Entries in a [MongoDB](https://www.mongodb.com) database for retrieval.
