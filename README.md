@@ -1,4 +1,5 @@
 # Scala REST Blog Service
+[![Coverage Status](https://coveralls.io/repos/github/ozoli/scala-rest-blog-service/badge.svg?branch=feature%2FRefactor_from_MySQL_to_MongoDB)](https://coveralls.io/github/ozoli/scala-rest-blog-service?branch=feature%2FRefactor_from_MySQL_to_MongoDB)
 
 Reads (Blog) entries from an RSS feed.
 
@@ -10,10 +11,6 @@ Once received this new Blog Entry is added to the MySQL database.
 Uses the [Mongo DB Scala Driver](http://mongodb.github.io/mongo-scala-driver/).
 
 For testing [ScalaTest](http://www.scalatest.org) is used with [Embed Mongo](https://github.com/SimplyScala/scalatest-embedmongo) for integration testing with an embedded MongoDB.
-
-# Notes 
-
-Run the tests with sbt clean compile test Running sbt test multiple times will result in test failures.
 
 # Acknowledgements
 
