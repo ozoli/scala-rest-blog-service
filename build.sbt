@@ -1,39 +1,62 @@
 name := "blogRestService"
 
-assemblyJarName in assembly := "blogRestService.jar"
-
 version := "1.0"
 
 scalaVersion := "2.11.7"
+
 scalacOptions ++= Seq("-optimize", "-language:postfixOps")
 
 resolvers += "spray repo" at "http://repo.spray.io"
 
-val sprayVersion = "1.3.2"
-val akkaVersion = "2.3.6"
+val sprayVersion = "1.3.3"
+val akkaVersion = "2.3.9"
+
+parallelExecution in Test := false
+
+parallelExecution in jacoco.Config := false
+
+jacoco.excludes        in jacoco.Config := Seq("io.ozoli.blog.BlogService.**anonfun**")
+
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
+
+jacoco.settings
+
+initialize := {
+  val _ = initialize.value
+  if (sys.props("java.specification.version") != "1.8")
+    sys.error("Java 8 is required for this project.")
+}
+
+// sbt-pack: JAR assembly, automatically find def main(args:Array[String]) methods from classpath
+packAutoSettings
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % akkaVersion
   ,"io.spray" %% "spray-can" % sprayVersion
-  ,"io.spray" %% "spray-json" % sprayVersion
+  ,"io.spray" %% "spray-json" % "1.3.2"
   ,"io.spray" %% "spray-routing" % sprayVersion
   ,"org.json4s" %% "json4s-native" % "3.2.11"
-  // -- Slick --
-  ,"com.typesafe.slick" %% "slick" % "3.0.2"
-  ,"com.github.tototoshi" %% "slick-joda-mapper" % "2.0.0"
+  ,"com.typesafe" % "config" % "1.3.0"
+)
 
-  ,"com.github.mauricio" %% "mysql-async" % "0.2.18"
+// -- MongoDB --
+libraryDependencies ++= Seq(
+  "org.mongodb" % "mongodb-driver" % "3.2.0"
+  ,"org.mongodb.scala" %% "mongo-scala-driver" % "1.1.0"
+)
 
-  ,"mysql" % "mysql-connector-java" % "5.1.35"
-  ,"com.zaxxer" % "HikariCP-java6" % "2.3.2"
-
-  ,"ch.qos.logback" % "logback-classic" % "1.1.3"
+// -- Logging --
+libraryDependencies ++= Seq(
+  "ch.qos.logback" % "logback-classic" % "1.1.3"
   ,"org.slf4j" % "slf4j-api" % "1.7.5"
   ,"org.clapper" %% "grizzled-slf4j" % "1.0.2"
-  ,"commons-daemon" % "commons-daemon" % "1.0.15"
+)
 
-  // Test dependencies
-  ,"com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"
+// Test dependencies
+libraryDependencies ++= Seq(
+  "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"
   ,"io.spray" %% "spray-testkit" % sprayVersion % "test"
-  ,"org.scalatest" %% "scalatest" % "2.1.4" % "test"
+  ,"org.scalatest" %% "scalatest" % "2.2.6" % "test"
+  ,"com.github.simplyscala" %% "scalatest-embedmongo" % "0.2.2" % "test"
+  ,"com.typesafe.akka" %% "akka-http-experimental" % "1.0-M3" % "test"
 )

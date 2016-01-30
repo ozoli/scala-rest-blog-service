@@ -1,21 +1,23 @@
 package io.ozoli.blog.util
 
 import java.net.URL
+import java.time.LocalDateTime
+import java.time.format.{DateTimeFormatterBuilder, DateTimeFormatter}
 
 import grizzled.slf4j.Logger
 import io.ozoli.blog.domain.BlogEntry
-import org.joda.time.format.{DateTimeFormatterBuilder, DateTimeFormat, DateTimeFormatter}
 
 import scala.xml.{Elem, Node, XML}
 
- // A RSS Reader from XML or URL create Blog Entry's
+/**
+ * A RSS Reader from XML or URL create Blog Entry's
+ */
 object RssReader {
   val logger = Logger[this.type]
 
   // support different formats of the publish date in the Atom RSS Feed.
-  lazy val pubDateFormat : DateTimeFormatter = new DateTimeFormatterBuilder().append( null, Array(
-    DateTimeFormat.forPattern( "EEE, dd MMM yyyy HH:mm:ss Z" ).getParser,
-    DateTimeFormat.forPattern( "EEE, dd MMM yyyy HH:mm:ss z" ).getParser )).toFormatter
+   lazy val pubDateFormat : DateTimeFormatter = new DateTimeFormatterBuilder().appendPattern(
+    "[EEE, dd MMM yyyy HH:mm:ss Z][EEE, dd MMM yyyy HH:mm:ss z]").toFormatter
 
   /**
    * For the given XML retreive the BlogEntry's found
@@ -35,21 +37,22 @@ object RssReader {
       }
       catch {
         case e : Exception =>
-          logger.error(s"Error Finding Blogs for URL %s %s %s".format(url, e.getMessage, e))
-          logger.warn(s"Fallback Blog List in use!")
+          logger.error(s"Error Finding Blogs for URL $url ${e.getMessage} $e \nFallback Blog XML in use!")
           getBlogEntries(XML.load(getClass.getResource("/blog-entries.xml").openStream()))
       }
   }
 
   /**
    * Given a channel node from an RSS feed, returns all of the BlogEntries
+   * to create the link title remove all non characters and then replace spaces with -'s
    * @param channel the XML Node to read all the blog entries from
    * @return a Seq of BlogEntry
    */
   private def extractBlogEntries(channel : Node) : Seq[BlogEntry] = {
     for (item <- channel \\ "item") yield {
-      BlogEntry(1, pubDateFormat.parseDateTime((item \ "pubDate").text).toLocalDateTime,
+      BlogEntry(LocalDateTime.parse((item \ "pubDate").text, pubDateFormat),
         (item \ "title").text,
+        (item \ "title").text.replaceAll("[^a-zA-Z|^\\s]", "").replaceAll(" ", "-").toLowerCase,
         (item \ "description").text,
         (channel \\ "category").map(_.text).mkString(" "))
     }
