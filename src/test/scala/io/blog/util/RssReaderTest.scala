@@ -1,5 +1,7 @@
 package io.blog.util
 
+import java.net.URL
+
 import io.ozoli.blog.domain.BlogEntry
 import io.ozoli.blog.util.RssReader
 import org.scalatest.concurrent.ScalaFutures
@@ -33,4 +35,18 @@ class RssReaderTest extends FunSuite with BeforeAndAfter with ScalaFutures {
       "events amsterdam gig tickets google chrome mac web browser development beta")
   }
 
+  test("RSS Blog entries from URL") {
+    val blogEntries : Seq[BlogEntry] = RssReader.extractRss(getClass.getResource("/blog-entry.xml").toURI.toURL)
+    assert(blogEntries.size == 1)
+    assert(blogEntries.head.title == "Creme Brulee or Creme Catalan?")
+    assert(blogEntries.head.category ==
+      "events amsterdam gig tickets google chrome mac web browser development beta")
+  }
+
+  test("Fallback RSS Blog entries from URL") {
+    val blogEntries : Seq[BlogEntry] =
+      RssReader.extractRss(new URL("file://blog-entry-INCORRECT-FILNAME.xml"))
+    assert(blogEntries.size == 5)
+    assert(blogEntries.head.title == "Back to Blogging")
+  }
 }
