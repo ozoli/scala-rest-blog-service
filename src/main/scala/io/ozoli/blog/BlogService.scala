@@ -24,17 +24,14 @@ import HttpMethods._
  * A RESTful web service for Blog Entries
  */
 class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport with CORSSupport {
-
-  private lazy val CacheHeader = (maxAge: Long) => `Cache-Control`(`max-age`(maxAge)) :: Nil
-  private lazy val MaxAge = 2592000.toLong  // 30 days (60 sec * 60 min * 24 hours * 30 days)
-  private lazy val MaxAge404 = 600l
+  private lazy val CacheHeaderMaxAge = `Cache-Control`(`max-age`(2592000.toLong)) // 30 days
+  private lazy val CacheHeaderMaxAge404 = `Cache-Control`(`max-age`(600.toLong))
 
   private lazy val blogPerTitleUri = """(/blog/)([\w\.|\-]+)"""
 
-  val logger = Logger[this.type]
+  override val logger = Logger[this.type]
 
   def system = context.system
-
   implicit def dispatcher: ExecutionContext = context.dispatcher
 
   override def receive = {
@@ -55,7 +52,7 @@ class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport 
         case Failure(ex) =>
           logger.error(s"Error Finding Blogs ${ex.getMessage} $ex")
           client ! HttpResponse(status = InternalServerError, entity = "Error Finding Blogs")
-                               .withHeaders(CacheHeader(MaxAge404)).withHeaders(CORSHeaders)
+                               .withHeaders(CacheHeaderMaxAge).withHeaders(CORSHeaders)
       }
 
     case HttpRequest(GET, Uri.Path(path), _, _, _) if path matches blogPerTitleUri =>
@@ -64,11 +61,11 @@ class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport 
         case Success(blog) =>
           client ! HttpResponse(status = OK).withEntity(
             HttpEntity(ContentTypes.`application/json`, blog.head.toJson.compactPrint))
-            .withHeaders(CacheHeader(MaxAge)).withHeaders(CORSHeaders)
+            .withHeaders(CacheHeaderMaxAge).withHeaders(CORSHeaders)
         case Failure(ex) =>
           logger.error(s"Error Finding Blog Link Title ${ex.getMessage} $ex")
           client ! HttpResponse(status = InternalServerError, entity = "Error Finding Blog Link Title")
-            .withHeaders(CacheHeader(MaxAge404)).withHeaders(CORSHeaders)
+            .withHeaders(CacheHeaderMaxAge404).withHeaders(CORSHeaders)
       }
 
     case HttpRequest(POST, Uri.Path("/blogs"), _, body, _) =>
@@ -79,7 +76,7 @@ class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport 
       case Failure(ex) =>
         logger.error(s"Error Adding Blog ${ex.getMessage} $ex New Blog $body")
         client ! HttpResponse(status = InternalServerError, entity = "Error Adding Blog")
-          .withHeaders(CacheHeader(MaxAge404)).withHeaders(CORSHeaders)
+          .withHeaders(CacheHeaderMaxAge404).withHeaders(CORSHeaders)
       }
 
     case HttpRequest(GET, Uri.Path("/ping"), _, _, _) =>
@@ -88,7 +85,7 @@ class BlogService extends Actor with ActorLogging with DB with SprayJsonSupport 
     case unhandledRequest : HttpRequest =>
       logger.error(s"Unknown Resource Requested ${unhandledRequest.method} ${unhandledRequest.uri}")
       sender ! HttpResponse(status = NotFound, entity = "Unknown resource!")
-                            .withHeaders(CacheHeader(MaxAge404)).withHeaders(CORSHeaders)
+                            .withHeaders(CacheHeaderMaxAge404).withHeaders(CORSHeaders)
   }
 
 }

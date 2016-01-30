@@ -37,14 +37,14 @@ object RssReader {
       }
       catch {
         case e : Exception =>
-          logger.error(s"Error Finding Blogs for URL %s %s %s".format(url, e.getMessage, e))
-          logger.warn(s"Fallback Blog List in use!")
+          logger.error(s"Error Finding Blogs for URL $url ${e.getMessage} $e \nFallback Blog XML in use!")
           getBlogEntries(XML.load(getClass.getResource("/blog-entries.xml").openStream()))
       }
   }
 
   /**
    * Given a channel node from an RSS feed, returns all of the BlogEntries
+   * to create the link title remove all non characters and then replace spaces with -'s
    * @param channel the XML Node to read all the blog entries from
    * @return a Seq of BlogEntry
    */

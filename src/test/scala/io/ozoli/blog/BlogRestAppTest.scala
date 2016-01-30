@@ -42,11 +42,11 @@ class BlogRestAppTest extends FlatSpec with DB with MongoEmbedDatabase
   var mongoProps: MongodProps = null
   var started = false
 
-  val server = new BlogRestApp()
+  val server = BlogRestAppMain
 
   override def beforeAll() = {
     println("Starting server")
-    server.start()
+    server.main(Array.empty)
   }
 
   override def afterAll() = {
@@ -165,13 +165,9 @@ class BlogRestAppTest extends FlatSpec with DB with MongoEmbedDatabase
       RawHeader("Link", "<http://olivercarr.blogspot.com/feeds/posts/default>;" +
         "rel=self,<http://pubsubhubbub.appspot.com/>;rel=hub"),
       RawHeader("Via", "1.1 vegur"),
-      RawHeader("Content-Length", "2118"),
       RawHeader("X-Request-Id", "e341227d-f86a-4e2f-a30b-5cb3f90cc93f"),
-      RawHeader("Host", "requestb.in"),
       RawHeader("Connect-Time", "1"),
       RawHeader("From", "googlebot(at)googlebot.com"),
-      RawHeader("User-Agent", "FeedFetcher-Google; (+http://www.google.com/feedfetcher.html)"),
-      RawHeader("Content-Type", "application/rss+xml"),
       RawHeader("Accept", "*/*"),
       RawHeader("Pragma", "no-cache"),
       RawHeader("Total-Route-Time", "0"),
