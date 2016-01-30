@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" media="screen" href="/~d/styles/rss2full.xsl"?><?xml-stylesheet type="text/css" media="screen" href="http://feeds.feedburner.com/~d/styles/itemcontent.css"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/"
+     xmlns:blogger="http://schemas.google.com/blogger/2008" xmlns:georss="http://www.georss.org/georss"
+     xmlns:gd="http://schemas.google.com/g/2005" xmlns:thr="http://purl.org/syndication/thread/1.0"
+     xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0" version="2.0">
+    <channel>
+        <atom:id>tag:blogger.com,1999:blog-2293822506107569095</atom:id>
+        <lastBuildDate>Fri, 11 Dec 2015 14:56:58 +0000</lastBuildDate>
+        <category>events amsterdam gig tickets</category>
+        <category>google chrome mac web browser development beta</category>
+        <title>Oliver Carr</title>
+        <description>Random posts about various topics ranging from software development, travel, food and
+            photography.
+        </description>
+        <link>http://olivercarr.blogspot.com/</link>
+        <managingEditor>noreply@blogger.com (Oliver Carr)</managingEditor>
+        <generator>Blogger</generator>
+        <openSearch:totalResults>5</openSearch:totalResults>
+        <openSearch:startIndex>1</openSearch:startIndex>
+        <openSearch:itemsPerPage>25</openSearch:itemsPerPage>
+        <atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml"
+                     href="http://feeds.feedburner.com/OliverCarrsBlog"/>
+        <feedburner:info uri="olivercarrsblog"/>
+        <atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="hub" href="http://pubsubhubbub.appspot.com/"/>
+        <item>
+            <guid isPermaLink="false">tag:blogger.com,1999:blog-2293822506107569095.post-6063129209760663328</guid>
+            <pubDate>Mon, 23 Nov 2015 22:45:00 +0000</pubDate>
+            <atom:updated>2015-12-03T22:27:01.791+01:00</atom:updated>
+            <title>Back to Blogging</title>
+            <description>After quite some time &lt;a href="https://twitter.com/aussieollie"&gt;micro blogging&lt;/a&gt;.
+                This blog is now back with a backend in Scala using PubSub, more specifically a &lt;a
+                href="https://en.wikipedia.org/wiki/PubSubHubbub"&gt;PubSubHubbub&lt;/a&gt; and a front end in ReactJS
+                hosted on &lt;a href="https://aws.amazon.com/"&gt;AWS&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;If that didn't
+                make sense to you there will always be more &lt;a href="https://www.flickr.com/photos/aussieollie/"&gt;photos&lt;/a&gt;!
+                I will post more soon including how all of this was setup, some food I ate and a selection of new
+                photos.&lt;br /&gt;&lt;br /&gt;Enjoy!&lt;img
+                src="http://feeds.feedburner.com/~r/OliverCarrsBlog/~4/mXs0rZ5e2cU" height="1" width="1"
+                alt=""/&gt;</description>
+            <link>http://feedproxy.google.com/~r/OliverCarrsBlog/~3/mXs0rZ5e2cU/back-to-blogging.html</link>
+            <author>noreply@blogger.com (Oliver Carr)</author>
+            <thr:total>0</thr:total>
+            <feedburner:origLink>http://olivercarr.blogspot.com/2015/11/back-to-blogging.html</feedburner:origLink>
+        </item>
+        <item>
+            <guid isPermaLink="false">tag:blogger.com,1999:blog-2293822506107569095.post-1729346027961650763</guid>
+            <pubDate>Fri, 08 Oct 2010 06:37:00 +0000</pubDate>
+            <atom:updated>2013-01-10T15:30:48.587+01:00</atom:updated>
+            <category domain="http://www.blogger.com/atom/ns#">events amsterdam gig tickets</category>
+            <title>Cat Empire Tickets Available Wed 13th Oct at Paradiso Amsterdam</title>
+            <description>I have 4 tickets available for the Cat Empire gig at the Paradiso on Wed 13th of October 2010.&lt;br
+                /&gt;&lt;br /&gt;I can't go as I have rugby training and they are available at face value.&lt;br /&gt;&lt;br
+                /&gt;I saw them here in Amsterdam a few years back at the Melkweg and it was a great show.&lt;br /&gt;&lt;br
+                /&gt;Info from the venue with a video is &lt;a
+                href="http://paradiso.nl/web/Agenda-Item/THE-CAT-EMPIRE.htm"&gt;here&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;Tickets
+                are first come first served, either comment or drop me an email.&lt;img
+                src="http://feeds.feedburner.com/~r/OliverCarrsBlog/~4/gWHp1Bm29oE" height="1" width="1"
+                alt=""/&gt;</description>
+            <link>
+                http://feedproxy.google.com/~r/OliverCarrsBlog/~3/gWHp1Bm29oE/cat-empire-tickets-available-wed-13th.html
+            </link>
+            <author>noreply@blogger.com (Oliver Carr)</author>
+            <feedburner:origLink>http://olivercarr.blogspot.com/2010/10/cat-empire-tickets-available-wed-13th.html
+            </feedburner:origLink>
+        </item>
+        <item>
+            <guid isPermaLink="false">tag:blogger.com,1999:blog-2293822506107569095.post-2367867343491789047</guid>
+            <pubDate>Thu, 03 Dec 2009 22:22:00 +0000</pubDate>
+            <atom:updated>2009-12-09T09:48:29.638+01:00</atom:updated>
+            <category domain="http://www.blogger.com/atom/ns#">google chrome mac web browser development beta</category>
+            <title>Google Chrome for the Mac: Early Access is Available!</title>
+            <description>&lt;div&gt;UPDATE: 8 Dec 2009. Google Chrome Beta for the Mac was released, download &lt;a
+                href="http://www.google.com/chrome"&gt;here&lt;/a&gt;.&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;a
+                href="http://www.google.com/chrome"&gt;Google Chrome&lt;/a&gt; is the new web browser from (no points
+                for guessing :) ) Google. It has been released for Windows and is in development for the Mac.&lt;br /&gt;&lt;br
+                /&gt;If you are brave follow the steps below to get Google Chrome on your Mac.&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Go
+                to Goggle Chrome Developer Channel Early Access &lt;a
+                href="http://dev.chromium.org/getting-involved/dev-channel"&gt;here&lt;/a&gt;.&lt;/li&gt;&lt;li&gt;Scroll
+                down to the Mac subsection of the Subscribing to a Channel section.&lt;/li&gt;&lt;li&gt;Click on the
+                GoogleChrome.dmg link. &lt;/li&gt;&lt;li&gt;After reading and accepting the Terms of Service the DMG
+                file will download.&lt;/li&gt;&lt;li&gt;In Finder you there will be a window titled Google Chrome and
+                drag the Google Chrome icon on to the Applications folder link.&lt;/li&gt;&lt;li&gt;Now you can start
+                using Goolge Chrome.&lt;/li&gt;&lt;/ul&gt;For problems please report the to the developers &lt;a
+                href="http://dev.chromium.org/for-testers/bug-reporting-guidlines-for-the-mac-linux-builds"&gt;here&lt;/a&gt;.&lt;br
+                /&gt;&lt;br /&gt;NOTE: I have used it only for a little over a week day to day at work on the Mac OS X
+                10.5 system. I exprienced only a small focus issue with a popped out Google Chat window.&lt;img
+                src="http://feeds.feedburner.com/~r/OliverCarrsBlog/~4/U-nTrCmng04" height="1" width="1"
+                alt=""/&gt;</description>
+            <link>
+                http://feedproxy.google.com/~r/OliverCarrsBlog/~3/U-nTrCmng04/google-chrome-for-mac-early-access-is.html
+            </link>
+            <author>noreply@blogger.com (Oliver Carr)</author>
+            <thr:total>0</thr:total>
+            <feedburner:origLink>http://olivercarr.blogspot.com/2009/12/google-chrome-for-mac-early-access-is.html
+            </feedburner:origLink>
+        </item>
+        <item>
+            <guid isPermaLink="false">tag:blogger.com,1999:blog-2293822506107569095.post-2272468915404298882</guid>
+            <pubDate>Wed, 27 Aug 2008 19:56:00 +0000</pubDate>
+            <atom:updated>2013-01-11T11:01:42.099+01:00</atom:updated>
+            <title>2fach Kiel, Germany</title>
+            <description>&lt;a href="http://www.2fach.eu/"&gt;2fach&lt;/a&gt; (two professions)&lt;br /&gt;Patisserie
+                and florist by Corrina and Sven; he was a neighbour for 1 yr, both are masters in their crafts. The
+                place they have renovated is great, the workshop too. A must visit either online or offline.&lt;img
+                src="http://feeds.feedburner.com/~r/OliverCarrsBlog/~4/rmyZHG9R3yA" height="1" width="1"
+                alt=""/&gt;</description>
+            <link>http://feedproxy.google.com/~r/OliverCarrsBlog/~3/rmyZHG9R3yA/2fach-kiel-germany.html</link>
+            <author>noreply@blogger.com (Oliver Carr)</author>
+            <thr:total>0</thr:total>
+            <feedburner:origLink>http://olivercarr.blogspot.com/2008/08/2fach-kiel-germany.html</feedburner:origLink>
+        </item>
+        <item>
+            <guid isPermaLink="false">tag:blogger.com,1999:blog-2293822506107569095.post-7134334606638925185</guid>
+            <pubDate>Mon, 25 Aug 2008 21:43:00 +0000</pubDate>
+            <atom:updated>2010-05-16T10:43:49.159+02:00</atom:updated>
+            <title>'08 hols in Kiel, Copenhagen, and Sweden</title>
+            <description>Currently I am on holidays in Sweden after seeing friends in Kiel. In Copenhagen it was
+                impossible to dial reverse charges to Australia and using a public phone is like watching money
+                disappear quick. In Gotenberg, Sweden they have just made the only way to pay for a ticket on the bus
+                via SMS. It didn't work for me with my NL SIM. But these are the only problems in what has been a great
+                holiday so far. Copenhagen had lots of galleries and chic cafes, restaurants and shops. The best was
+                seeing a jazz band spontaneously play on the canal outside the Royal Palace. Gotenberg had not as many
+                galleries but the Albrecht Drurer etchings where amazing. Both cities had lots of bike paths and parks.&lt;br
+                /&gt;&lt;br /&gt;Much more on Kiel and these Swedish adventures soon...&lt;img
+                src="http://feeds.feedburner.com/~r/OliverCarrsBlog/~4/YnXWrT4QBGg" height="1" width="1"
+                alt=""/&gt;</description>
+            <link>
+                http://feedproxy.google.com/~r/OliverCarrsBlog/~3/YnXWrT4QBGg/st-post-and-08-hols-in-kiel-copenhagen.html
+            </link>
+            <author>noreply@blogger.com (Oliver Carr)</author>
+            <thr:total>0</thr:total>
+            <feedburner:origLink>http://olivercarr.blogspot.com/2008/08/st-post-and-08-hols-in-kiel-copenhagen.html
+            </feedburner:origLink>
+        </item>
+    </channel>
+</rss>
