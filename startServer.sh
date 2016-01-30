@@ -7,54 +7,41 @@
 # Should-Stop:       $named
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Control ozoli blog REST app
-# Description:       Control ozoli blog REST app daemon.
+# Short-Description: Control yourid blog REST app
+# Description:       Control yourid blog REST app daemon.
 ### END INIT INFO
 
 ./setEnv.sh
 
 set -e
 
-#if [ -z "${JAVA_HOME}" ]; then
-#        JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::")
-#fi
-JAVA_OPTS="-Xms512m -Xmx1024m"
-
 APP=blogRestService
 
-PID=/var/run/${APP}.pid
-OUT_LOG=/var/log/${APP}/${APP}_out.log
-ERR_LOG=/var/log/${APP}/${APP}_err.log
+APP_LOG_CONFIG=/etc/yourid/${APP}_logback.xml
+APP_CONFIG=/etc/yourid/${APP}.conf
+APP_HOME=/Users/yourid/local/bin/
+APP_NAME=./blog-rest-app-main
 
-DAEMON_USER=root
+JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+JAVA_OPTS="-Xms512m -Xmx1024m -Dblog.rss.uri=http://your.feed.host/YourBlog?fmt=xml -Djava.awt.headless=true"
+JAVA_OPTS="-Dlogback.configurationFile=/Users/yourid/local/etc/blogRestService_logback.xml ${JAVA_OPTS}"
 
-APP_LOG_CONFIG=/etc/ozoli/${APP}_logback.xml
-APP_CONFIG=/etc/ozoli/${APP}.conf
-APP_HOME=/opt/${APP}
-APP_CLASSPATH=$APP_HOME/${APP}.jar
-APP_CLASS=io.ozoli.blog.BlogRestAppDaemon
-
-if [ -n "$APP_LOG_CONFIG}" ]; then
-        JAVA_OPTS="-Dlogback.configurationFile=${APP_LOG_CONFIG} ${JAVA_OPTS}"
-fi
-
-DAEMON_ARGS="-jvm server -Dconfig.file=${APP_CONFIG} ${JAVA_OPTS} -Djava.awt.headless=true -pidfile ${PID}"
-DAEMON_ARGS="$DAEMON_ARGS -user ${DAEMON_USER} -outfile ${OUT_LOG} -errfile ${ERR_LOG}"
-DAEMON_ARGS="$DAEMON_ARGS -cp ${APP_CLASSPATH} ${APP_CLASS}"
+PID=/Users/yourid/local/${APP}.pid
 
 #. /lib/lsb/init-functions
 
 case "$1" in
         start)
                 echo "Starting ${APP}"
-                cd ${APP_HOME} && jsvc ${DAEMON_ARGS}
+                cd ${APP_HOME} 
+                ${APP_NAME} & echo $! >> ${PID}
                 ;;
         stop)
                 echo "Stopping ${APP}"
-                cd ${APP_HOME} && jsvc -stop ${DAEMON_ARGS}
+                kill -9 `cat ${PID}` && rm ${PID}
                 ;;
         *)
-                echo "Usage:  {start|stop}"
+                echo "Usage: {start|stop}"
                 exit 1
                 ;;
 esac
