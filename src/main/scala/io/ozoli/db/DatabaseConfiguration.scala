@@ -35,6 +35,7 @@ trait DatabaseConfiguration {
 
   // Insert all the BlogEntries read from RSS
   val documents = currentBlogEntries map { blogEntry: BlogEntry => Document(
+    "id" -> blogEntry.id.toString,
     "pubDate" -> DateTimeFormatter.ISO_DATE_TIME.format(blogEntry.pubDate),
     "title" -> blogEntry.title,
     "linkTitle" -> blogEntry.linkTitle,

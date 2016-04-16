@@ -23,7 +23,7 @@ APP_HOME=/Users/yourid/local/bin/
 APP_NAME=./blog-rest-app-main
 
 JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
-JAVA_OPTS="-Xms512m -Xmx1024m -Dblog.rss.uri=http://your.feed.host/YourBlog?fmt=xml -Djava.awt.headless=true"
+JAVA_OPTS="-Xms512m -Xmx1024m -Dblog.db.name=ozoliblog -Dblog.db.collectionName=blogs -Dblog.rss.uri=http://your.feed.host/YourBlog?fmt=xml -Djava.awt.headless=true"
 JAVA_OPTS="-Dlogback.configurationFile=/Users/yourid/local/etc/blogRestService_logback.xml ${JAVA_OPTS}"
 
 PID=/Users/yourid/local/${APP}.pid

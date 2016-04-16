@@ -14,6 +14,7 @@ object BlogEntryJsonProtocol extends DefaultJsonProtocol {
 
   implicit object BlogEntryJsonFormat extends RootJsonFormat[BlogEntry] {
     def write(blogEntry: BlogEntry) = JsObject(
+      "id" -> JsNumber(blogEntry.id),
       "pubDate" -> JsString(dateTimeFormatter.format(blogEntry.pubDate)),
       "title" -> JsString(blogEntry.title),
       "linkTitle" -> JsString(blogEntry.linkTitle),

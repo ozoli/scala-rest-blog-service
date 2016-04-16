@@ -15,7 +15,7 @@ import scala.xml.{Elem, Node, XML}
 object RssReader {
   val logger = Logger[this.type]
 
-  // support different formats of the publish date in the Atom RSS Feed.
+   // support different formats of the publish date in the Atom RSS Feed.
    lazy val pubDateFormat : DateTimeFormatter = new DateTimeFormatterBuilder().appendPattern(
     "[EEE, dd MMM yyyy HH:mm:ss Z][EEE, dd MMM yyyy HH:mm:ss z]").toFormatter
 
@@ -49,13 +49,18 @@ object RssReader {
    * @return a Seq of BlogEntry
    */
   private def extractBlogEntries(channel : Node) : Seq[BlogEntry] = {
-    for (item <- channel \\ "item") yield {
-      BlogEntry(LocalDateTime.parse((item \ "pubDate").text, pubDateFormat),
-        (item \ "title").text,
-        (item \ "title").text.replaceAll("[^a-zA-Z|^\\s]", "").replaceAll(" ", "-").toLowerCase,
-        (item \ "description").text,
+    val blogs = channel \\ "item"
+    for {
+      idx <- 1 to blogs.length
+      blog <- blogs(idx - 1)
+    } yield {
+      BlogEntry(
+        idx,
+        LocalDateTime.parse((blog \ "pubDate").text, pubDateFormat),
+        (blog \ "title").text,
+        (blog \ "title").text.replaceAll("[^a-z0-9A-Z|^\\s]", "").replaceAll(" ", "-").toLowerCase,
+        (blog \ "description").text,
         (channel \\ "category").map(_.text).mkString(" "))
     }
   }
-
 }

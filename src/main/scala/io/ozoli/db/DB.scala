@@ -60,8 +60,9 @@ trait DB extends DatabaseConfiguration {
    * @return the corresponding BlogEntry for the given Document
    */
   private def toBlogEntry(document: Document): BlogEntry =
-    BlogEntry(LocalDateTime.parse(
-      document.get("pubDate").get.asString().getValue, DateTimeFormatter.ISO_DATE_TIME),
+    BlogEntry(
+      Integer.valueOf(document.get("id").get.asString().getValue),
+      LocalDateTime.parse(document.get("pubDate").get.asString().getValue, DateTimeFormatter.ISO_DATE_TIME),
       document.get("title").get.asString().getValue,
       document.get("linkTitle").get.asString().getValue,
       document.get("body").get.asString().getValue,
